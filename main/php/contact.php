@@ -7,7 +7,7 @@ $errors = "";
 
 // Name
 if (empty($_POST["name"])) {
-    $errors = "Name is required ";
+    $errors .= "Name is required ";
 } else {
     $name = $_POST["name"];
 }
@@ -21,7 +21,7 @@ if (empty($_POST["email"])) {
 
 // Subject
 if (empty($_POST["subject"])) {
-    $errors = "Subject is required ";
+    $errors .= "Subject is required ";
 } else {
     $Subject = $_POST["subject"];
 }
@@ -31,6 +31,12 @@ if (empty($_POST["message"])) {
     $errors .= "Message is required ";
 } else {
     $message = $_POST["message"];
+}
+
+// If there are errors, stop processing and display them
+if (!empty($errors)) {
+    echo $errors;
+    exit;
 }
 
 // Prepare email body text
@@ -49,10 +55,9 @@ $Body .= "\n";
 $success = mail($EmailTo, $Subject, $Body, "From:".$email);
 
 // Redirect to success page
-if ($success && $errors == ""){
+if ($success){
    echo 'success';
-}
-else{
-    echo $errors;
+} else {
+    echo 'An error occurred while sending the email.';
 }
 ?>
