@@ -1,7 +1,7 @@
 <?php
 error_reporting(E_ALL); 
 ini_set('display_errors', 1);
-set_time_limit(30);
+set_time_limit(120); // Set the timeout to 60 seconds
 // Email recipient
 $EmailTo = "YASHASVI.SHARMA2019@GMAIL.COM";
 
