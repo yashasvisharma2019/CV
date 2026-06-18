@@ -1,65 +1,29 @@
 <?php
-error_reporting(E_ALL); 
+error_reporting(E_ALL);
 ini_set('display_errors', 1);
-set_time_limit(120); // Set the timeout to 60 seconds
-// Email recipient
+
 $EmailTo = "YASHASVI.SHARMA2019@GMAIL.COM";
 
-$errors = "";
+$name = trim($_POST["name"] ?? "");
+$email = trim($_POST["email"] ?? "");
+$subject = trim($_POST["subject"] ?? "");
+$message = trim($_POST["message"] ?? "");
 
-// Name
-if (empty($_POST["name"])) {
-    $errors .= "Name is required ";
-} else {
-    $name = $_POST["name"];
-}
-
-// Email
-if (empty($_POST["email"])) {
-    $errors .= "Email is required ";
-} else {
-    $email = $_POST["email"];
-}
-
-// Subject
-if (empty($_POST["subject"])) {
-    $errors .= "Subject is required ";
-} else {
-    $Subject = $_POST["subject"];
-}
-
-// Message
-if (empty($_POST["message"])) {
-    $errors .= "Message is required ";
-} else {
-    $message = $_POST["message"];
-}
-
-// If there are errors, stop processing and display them
-if (!empty($errors)) {
-    echo $errors;
+if ($name === "" || $email === "" || $subject === "" || $message === "") {
+    echo "Please fill all required fields.";
     exit;
 }
 
-// Prepare email body text
-$Body = "";
-$Body .= "Name: ";
-$Body .= $name;
-$Body .= "\n";
-$Body .= "Email: ";
-$Body .= $email;
-$Body .= "\n";
-$Body .= "Message: ";
-$Body .= $message;
-$Body .= "\n";
+$body  = "Name: $name\n";
+$body .= "Email: $email\n";
+$body .= "Message: $message\n";
 
-// Send email
-$success = mail($EmailTo, $Subject, $Body, "From:".$email);
+$headers = "From: $name <$email>\r\n";
+$headers .= "Reply-To: $email\r\n";
 
-// Redirect to success page
-if ($success){
-   echo 'success';
+if (mail($EmailTo, $subject, $body, $headers)) {
+    echo "success";
 } else {
-    echo 'An error occurred while sending the email.';
+    echo "Mail function failed.";
 }
 ?>
